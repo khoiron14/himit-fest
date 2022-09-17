@@ -25,6 +25,7 @@ $(document).ready( function () {
   <table id="table" class="table table-striped">
     <thead>
       <tr>
+        <th>No.</th>
         <th>Email</th>
         <th>Nama Ketua</th>
         <th>Nama Tim</th>
@@ -37,19 +38,20 @@ $(document).ready( function () {
     <tbody>
       @foreach ($profiles as $profile)
       <tr>
+        <td>{{ $loop->iteration }}</td>
         <td>{{ $profile->email }}</td>
         <td>{{ $profile->leader_name }}</td>
         <td>{{ $profile->team_name }}</td>
         <td>{{ $profile->institution }}</td>
         <td>
           @if ($profile->identity_url != null)
-              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#showIdentity">Lihat</button>
+              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#showIdentity-{{ $loop->iteration }}">Lihat</button>
   
-              <div class="modal fade" id="showIdentity" tabindex="-1" aria-labelledby="showIdentity" aria-hidden="true">
+              <div class="modal fade" id="showIdentity-{{ $loop->iteration }}" tabindex="-1" aria-labelledby="showIdentity-{{ $loop->iteration }}" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="showIdentity">Foto KTM / Kartu Pelajar Ketua</h5>
+                      <h5 class="modal-title" id="showIdentity-{{ $loop->iteration }}">Foto KTM / Kartu Pelajar Ketua</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
