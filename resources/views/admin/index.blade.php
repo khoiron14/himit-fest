@@ -6,7 +6,7 @@
 
 @section('content')
 
-<form class="row row-cols-lg-auto g-3 align-items-center" action="{{ route('dashboard.change_step') }}" method="POST" onSubmit="return confirm('Apakah anda yakin?') ">
+<form class="row row-cols-lg-auto g-3 align-items-center" action="{{ route('dashboard.change_step') }}" method="POST" onSubmit="return confirm('Apakah anda yakin?')">
   @csrf
   <div class="col-12">
     <select class="form-select @error('step') is-invalid @enderror" aria-label="Pilih Tahap" name="step">

@@ -91,8 +91,7 @@ $(document).ready( function () {
         <th>No.</th>
         <th>Tahap</th>
         <th>File</th>
-        <th>Status</th>
-        <th>Tanggal Upload</th>
+        <th>Waktu Upload</th>
         <th>Aksi</th>
       </tr>
     </thead>
@@ -116,7 +115,6 @@ $(document).ready( function () {
         <td>
           <a class="btn btn-sm btn-primary" href="{{ $submission->file_url ?? '' }}" download>Download</a>
         </td>
-        <td>{{ $submission->status }}</td>
         <td>{{ $submission->file->updated_at->format('d F Y H:s') }}</td>
         <td>
           @if ($profile->allow_upload && $profile->pending_submission && App\Models\Step::first()->status == $submission->step)

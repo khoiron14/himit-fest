@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SubmissionController as AdminSubmissionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -34,6 +35,10 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::get('/team', [TeamController::class, 'index'])->name('team.index');
         Route::post('/team/{profile}/verification/general', [TeamController::class, 'verifGeneral'])->name('team.verif.general');
         Route::post('/team/{profile}/verification/college', [TeamController::class, 'verifCollege'])->name('team.verif.college');
+       
+        Route::get('/{competitionType}/{stepStatus}', [AdminSubmissionController::class, 'index'])->name('admin.submission.index');
+        Route::post('/submission/{submission}/pass', [AdminSubmissionController::class, 'pass'])->name('admin.submission.pass');
+        Route::post('/submission/{submission}/failed', [AdminSubmissionController::class, 'failed'])->name('admin.submission.failed');
     });
 
     Route::middleware('role:participant')->group(function () {

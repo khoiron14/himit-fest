@@ -1,40 +1,68 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
   <div class="position-sticky pt-3 sidebar-sticky">
-    <ul class="nav flex-column">
-
-      @admin
+    @admin
+    <ul class="nav flex-column mb-2">
       <li class="nav-item">
-        <a class="nav-link {{ request()->routeIs('dashboard*') ? 'active' : '' }}" aria-current="page" href="{{ route('dashboard') }}">
+        <a class="nav-link {{ request()->routeIs('dashboard*') ? 'active' : '' }}" 
+          href="{{ route('dashboard') }}">
           <span data-feather="home" class="align-text-bottom"></span>
           Dashboard
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {{ request()->routeIs('team*') ? 'active' : '' }}" aria-current="page" href="{{ route('team.index') }}">
+        <a class="nav-link {{ request()->routeIs('team*') ? 'active' : '' }}" 
+          href="{{ route('team.index') }}">
           <span data-feather="users" class="align-text-bottom"></span>
           Daftar Tim
         </a>
       </li>
-      @else
+    </ul>
+
+    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+      <span>Pengumpulan</span>
+    </h6>
+    <ul class="nav flex-column mb-2">
       <li class="nav-item">
-        <a class="nav-link {{ request()->routeIs('profile*') ? 'active' : '' }}" aria-current="page" href="{{ route('profile.index') }}">
+        <a class="nav-link {{ request()->is('dashboard/'.App\Enums\CompetitionType::WebDesign->value.'*') ? 'active' : '' }}" 
+          href="{{ route('admin.submission.index', [App\Enums\CompetitionType::WebDesign, App\Models\Step::first()->status]) }}">
+          <span data-feather="file-text" class="align-text-bottom"></span>
+          Web Design
+        </a>
+        <a class="nav-link {{ request()->is('dashboard/'.App\Enums\CompetitionType::BTIK->value.'*') ? 'active' : '' }}" 
+          href="{{ route('admin.submission.index', [App\Enums\CompetitionType::BTIK, App\Models\Step::first()->status]) }}">
+          <span data-feather="file-text" class="align-text-bottom"></span>
+          Bisnis TIK
+        </a>
+        <a class="nav-link {{ request()->is('dashboard/'.App\Enums\CompetitionType::UIUX->value.'*') ? 'active' : '' }}" 
+          href="{{ route('admin.submission.index', [App\Enums\CompetitionType::UIUX, App\Models\Step::first()->status]) }}">
+          <span data-feather="file-text" class="align-text-bottom"></span>
+          UIUX
+        </a>
+      </li>
+    </ul>
+    @else
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('profile*') ? 'active' : '' }}" 
+          href="{{ route('profile.index') }}">
           <span data-feather="user" class="align-text-bottom"></span>
           Profile
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {{ request()->routeIs('competition*') ? 'active' : '' }}" aria-current="page" href="{{ route('competition.index') }}">
+        <a class="nav-link {{ request()->routeIs('competition*') ? 'active' : '' }}" 
+          href="{{ route('competition.index') }}">
           <span data-feather="wind" class="align-text-bottom"></span>
           Kompetisi
         </a>
       </li>
-      @endadmin
+    </ul>
+    @endadmin
 
+    <ul class="nav flex-column">
       <li class="nav-item d-md-none">
-        <a class="nav-link" 
-          href="{{ route('logout') }}"
-          onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-        >
+        <a class="nav-link" href="{{ route('logout') }}"
+          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
           <span data-feather="log-out" class="align-text-bottom"></span>
           Sign out
         </a>
