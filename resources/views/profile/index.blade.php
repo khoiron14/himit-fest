@@ -62,7 +62,7 @@
         @endif
       </label>
 
-      <input type="file" class="form-control @error('identity') is-invalid @enderror" id="identity" name="identity">
+      <input type="file" class="form-control @error('identity') is-invalid @enderror" id="identity" name="identity" accept=".jpg,.jpeg,.png">
 
       @error('identity')
       <span class="invalid-feedback" role="alert">

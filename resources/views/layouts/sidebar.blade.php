@@ -56,6 +56,18 @@
           Kompetisi
         </a>
       </li>
+      @php
+          $sub1 = App\Models\Submission::where('profile_id', auth()->user()->profile->id)->where('step', App\Enums\StepStatus::Step1)->first();
+      @endphp
+      @if ($sub1 && ($sub1->status == App\Enums\SubmissionStatus::Pass) && (App\Models\Step::first()->status != App\Enums\StepStatus::Step1))
+      <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('payment*') ? 'active' : '' }}" 
+          href="{{ route('payment.index') }}">
+          <span data-feather="tag" class="align-text-bottom"></span>
+          Pembayaran
+        </a>
+      </li>
+      @endif
     </ul>
     @endadmin
 

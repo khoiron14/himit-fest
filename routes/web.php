@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\CompetitionController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SubmissionController;
 
 /*
@@ -51,5 +52,8 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::post('/competition/{profile}/add', [CompetitionController::class, 'addCompetition'])->name('competition.add');
         Route::post('/competition/{profile}/submission', [SubmissionController::class, 'store'])->name('submission.store');
         Route::post('/competition/{profile}/submission/{submission}/update', [SubmissionController::class, 'update'])->name('submission.update');
+        
+        Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+        Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
     });
 });
