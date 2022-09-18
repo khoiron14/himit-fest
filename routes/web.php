@@ -39,6 +39,8 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::get('/{competitionType}/{stepStatus}', [AdminSubmissionController::class, 'index'])->name('admin.submission.index');
         Route::post('/submission/{submission}/pass', [AdminSubmissionController::class, 'pass'])->name('admin.submission.pass');
         Route::post('/submission/{submission}/failed', [AdminSubmissionController::class, 'failed'])->name('admin.submission.failed');
+        
+        Route::post('/announce', [DashboardController::class, 'announce'])->name('admin.announce');
     });
 
     Route::middleware('role:participant')->group(function () {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PaymentStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,15 +14,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->string('type')->nullable();
-            $table->string('competition')->nullable();
-            $table->string('pass_status')->nullable();
-            $table->string('leader_name');
-            $table->string('team_name');
-            $table->string('institution');
+            $table->foreignId('profile_id')->constrained();
+            $table->string('name');
+            $table->string('status')->default(PaymentStatus::Pending->value);
             $table->timestamps();
         });
     }
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profiles');
+        Schema::dropIfExists('payments');
     }
 };

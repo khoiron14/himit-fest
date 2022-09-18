@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Enums\PassStatus;
+use App\Models\Payment;
 use App\Enums\StepStatus;
 use App\Enums\ProfileType;
 use App\Models\Submission;
 use App\Enums\CompetitionType;
+use App\Enums\PaymentStatus;
 use App\Enums\SubmissionStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -19,10 +20,11 @@ class Profile extends Model
     protected $fillable = [
         'user_id',
         'type',
+        'competition',
+        'pass_status',
         'leader_name',
         'team_name',
         'institution',
-        'competition'
     ];
 
     protected $appends = [
@@ -30,12 +32,13 @@ class Profile extends Model
         'identity_url',
         'pending_submission',
         'allow_upload',
+        'is_paid'
     ];
 
     protected $casts = [
         'type' => ProfileType::class,
         'competition' => CompetitionType::class,
-        'pass_status' => PassStatus::class
+        'pass_status' => StepStatus::class
     ];
 
     public function user()
@@ -46,6 +49,11 @@ class Profile extends Model
     public function submissions()
     {
         return $this->hasMany(Submission::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
 
     public function identity()
@@ -71,10 +79,10 @@ class Profile extends Model
     {
         return Attribute::make(
             get: function () {
-                if (Step::first()->status = StepStatus::Step1) {
+                if (Step::first()->status == StepStatus::Step1) {
                     return $this->type != null;
-                } else if (Step::first()->status = StepStatus::Step2) {
-                    return ($this->type != null) && ($this->is_paid != 0) && ($this->pass_status == PassStatus::Step1);
+                } else if (Step::first()->status == StepStatus::Step2) {
+                    return ($this->type != null) && ($this->is_paid != 0) && ($this->pass_status == StepStatus::Step1);
                 }
             },
         );
@@ -90,6 +98,19 @@ class Profile extends Model
                     ->first();
 
                 return $submission != null ? true : false;
+            },
+        );
+    }
+
+    protected function isPaid(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->payment != null) {
+                    return $this->payment == PaymentStatus::Accept;
+                }
+
+                return false;
             },
         );
     }

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StepStatus;
+use App\Enums\SubmissionStatus;
 use App\Models\Step;
 use App\Enums\UserRole;
+use App\Models\Profile;
+use App\Models\Submission;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -23,12 +27,34 @@ class DashboardController extends Controller
 
     public function changeStep(Request $request)
     {
+        $passParticipants = Profile::where('pass_status', Step::first()->status)->get();
+        if ($passParticipants->isEmpty()) {
+            return redirect()->route('dashboard')
+                ->with(['warning' => 'Harap mengumumkan peserta lolos terlebih dahulu!']);
+        }
+
         $request->validate([
-            'step' => 'required|string|in:step_1,step_2,step_3',
+            'step' => 'required|string|in:step_1,step_2,step_3,end',
         ]);
 
         Step::first()->update(['status' => $request->step]);
 
         return redirect()->route('dashboard');
+    }
+
+    public function announce()
+    {
+        $step = Step::first()->status;
+
+        $submissions = Submission::with('profile')
+            ->where('step', $step)
+            ->where('status', SubmissionStatus::Pass)
+            ->get();
+
+        foreach ($submissions as $submission) {
+            $submission->profile->update(['pass_status' => $step]);
+        }
+
+        return redirect()->route('dashboard')->with(['success' => 'Berhasil Mengumumkan Peserta Lolos.']);
     }
 }

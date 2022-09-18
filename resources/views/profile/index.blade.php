@@ -5,6 +5,12 @@
 @endpush
 
 @section('content')
+@if ($announceMessage != null)
+<div class="alert {{ $announceMessage['status'] == 'pass' ? 'alert-success' : 'alert-warning' }}" role="alert">
+  {{ $announceMessage['message'] }}
+</div>
+@endif
+
 <form action="{{ route('profile.store') }}" method="post" enctype="multipart/form-data">
   @csrf
   <div class="row mb-3">
