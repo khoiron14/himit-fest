@@ -82,7 +82,21 @@ class Profile extends Model
                 if (Step::first()->status == StepStatus::Step1) {
                     return $this->type != null;
                 } else if (Step::first()->status == StepStatus::Step2) {
-                    return ($this->type != null) && ($this->is_paid != 0) && ($this->pass_status == StepStatus::Step1);
+                    $submission = $this->submissions()
+                        ->where('step', StepStatus::Step2)
+                        ->where('status', '<>', SubmissionStatus::Pending)
+                        ->first();
+
+                    return ($this->type != null) && ($this->is_paid != false) && ($this->pass_status == StepStatus::Step1) && (!$submission);
+                } else if (Step::first()->status == StepStatus::Step3) {
+                    $submission = $this->submissions()
+                        ->where('step', StepStatus::Step3)
+                        ->where('status', '<>', SubmissionStatus::Pending)
+                        ->first();
+
+                    return ($this->type != null) && ($this->is_paid != false) && ($this->pass_status == StepStatus::Step2) && (!$submission);
+                } else {
+                    return false;
                 }
             },
         );
@@ -107,7 +121,7 @@ class Profile extends Model
         return Attribute::make(
             get: function () {
                 if ($this->payment != null) {
-                    return $this->payment == PaymentStatus::Accept;
+                    return $this->payment->status == PaymentStatus::Accept;
                 }
 
                 return false;

@@ -61,7 +61,7 @@ $(document).ready( function () {
 </div>
 
 @if ($profile->allow_upload && !$profile->pending_submission)
-<form class="row row-cols-lg-auto g-3 align-items-center" action="{{ route('submission.store', $profile) }}" method="POST" enctype="multipart/form-data">
+<form class="row row-cols-lg-auto g-3 align-items-center mb-3" action="{{ route('submission.store', $profile) }}" method="POST" enctype="multipart/form-data">
   @csrf
   <div class="col-12">
     <label for="submission" class="col-form-label text-md-end">

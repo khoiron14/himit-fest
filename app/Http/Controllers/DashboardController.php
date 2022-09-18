@@ -27,15 +27,11 @@ class DashboardController extends Controller
 
     public function changeStep(Request $request)
     {
-        $passParticipants = Profile::where('pass_status', Step::first()->status)->get();
-        if ($passParticipants->isEmpty()) {
-            return redirect()->route('dashboard')
-                ->with(['warning' => 'Harap mengumumkan peserta lolos terlebih dahulu!']);
-        }
-
         $request->validate([
             'step' => 'required|string|in:step_1,step_2,step_3,end',
         ]);
+
+        $this->announce();
 
         Step::first()->update(['status' => $request->step]);
 

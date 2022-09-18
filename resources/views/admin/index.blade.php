@@ -33,37 +33,9 @@
 
   @if (!($step->status == App\Enums\StepStatus::End))
   <div class="col-12">
-    <strong>Catatan : </strong> Harap umumkan peserta lolos sebelum mengganti tahap.
+    <strong>Catatan : </strong> Pengumuman peserta akan diumumkan saat mengganti tahap.
   </div>
   @endif
 </form>
-
-@if (!($step->status == App\Enums\StepStatus::End))
-<a href="{{ route('admin.announce') }}" class="btn btn-secondary" onclick="
-  event.preventDefault(); 
-  if (!confirm('Apakah anda yakin?')) {return false};
-  document.getElementById('announce-form').submit();">
-  Umumkan Peserta Lolos
-  @switch($step->status)
-    @case(App\Enums\StepStatus::Step1)
-      Tahap 1
-      @break
-    @case(App\Enums\StepStatus::Step2)
-      Tahap 2
-      @break
-    @case(App\Enums\StepStatus::Step2)
-      Tahap 3
-      @break
-  @endswitch
-</a>
-
-<form id="announce-form" action="{{ route('admin.announce') }}" method="POST" class="d-none">
-  @csrf
-</form>
-
-<div class="mt-2">
-  <strong>Catatan : </strong> Pengumuman akan benar-benar diumumkan ke peserta ketika tahap sudah diganti ke tahap berikutnya.
-</div>
-@endif
 
 @endsection

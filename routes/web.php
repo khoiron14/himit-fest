@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\SubmissionController as AdminSubmissionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -41,7 +42,10 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::post('/submission/{submission}/pass', [AdminSubmissionController::class, 'pass'])->name('admin.submission.pass');
         Route::post('/submission/{submission}/failed', [AdminSubmissionController::class, 'failed'])->name('admin.submission.failed');
         
-        Route::post('/announce', [DashboardController::class, 'announce'])->name('admin.announce');
+        Route::get('/payments', [AdminPaymentController::class, 'index'])->name('admin.payment.index');
+        Route::post('/payments/{payment}/accept', [AdminPaymentController::class, 'accept'])->name('admin.payment.accept');
+        Route::post('/payments/{payment}/reject', [AdminPaymentController::class, 'reject'])->name('admin.payment.reject');
+        
     });
 
     Route::middleware('role:participant')->group(function () {

@@ -25,6 +25,11 @@ class Payment extends Model
         'file_url',
     ];
 
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
+
     public function file()
     {
         return $this->morphOne(File::class, 'fileable');
